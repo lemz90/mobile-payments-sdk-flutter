@@ -25,19 +25,14 @@ class _DonutCounterScreenState extends State<DonutCounterScreen> {
 
       Payment payment = await _squareMobilePaymentsSdkPlugin.paymentManager
           .startPayment(
-            PaymentParameters(
-              processingMode: 2,
-              amountMoney: Money(
-                amount: amount,
-                currencyCode: CurrencyCode.eur,
-              ),
-              idempotencyKey: idempotencyKey,
-            ),
-            PromptParameters(
-              additionalPaymentMethods: List.empty(),
-              mode: PromptMode.defaultMode,
-            ),
-          );
+              PaymentParameters(
+                  processingMode: 0,
+                  amountMoney:
+                      Money(amount: amount, currencyCode: CurrencyCode.eur),
+                  idempotencyKey: idempotencyKey),
+              PromptParameters(
+                  additionalPaymentMethods: List.empty(),
+                  mode: PromptMode.defaultMode));
       if (context.mounted) {
         showPaymentDialog(context, payment);
       }
@@ -49,18 +44,6 @@ class _DonutCounterScreenState extends State<DonutCounterScreen> {
       print("---------------------------------------");
       print("Unexpected error $e");
       print("---------------------------------------");
-    }
-  }
-
-  _onTapToPay() async {
-    print("testing TTP");
-    try {
-      bool isAppleAccountLinked = await _squareMobilePaymentsSdkPlugin
-          .tapToPaySettings
-          .isDeviceCapable();
-      print("isAppleAccountLinked ");
-    } catch (e, stackTrace) {
-      print("Exception reader: $e");
     }
   }
 
