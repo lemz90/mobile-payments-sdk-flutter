@@ -302,6 +302,27 @@ class MethodChannelSquareMobilePaymentsSdk
   }
 
   @override
+  Future<String> getTrackingConsentState() async {
+    final state = await methodChannel.invokeMethod<String>('getTrackingConsentState');
+    if (state == null) {
+      throw getChannelStateError("getTrackingConsentState()", "returned null");
+    }
+    return state;
+  }
+
+  @override
+  Future<void> updateTrackingConsent({required bool granted}) async {
+    try {
+      await methodChannel.invokeMethod<void>(
+        'updateTrackingConsent',
+        {'granted': granted},
+      );
+    } on PlatformException catch (e) {
+      throw SettingsError(e.code, e.message, e.details);
+    }
+  }
+
+  @override
   ReaderCallbackReference setReaderChangedCallback(
       FutureOr<void> Function(ReaderChangedEvent event) callback) {
     String refId = _generateUniqueId();

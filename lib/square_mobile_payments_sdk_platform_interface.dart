@@ -151,4 +151,12 @@ abstract class SquareMobilePaymentsSdkPlatform extends PlatformInterface {
   PairingHandle pairReader(void Function(bool, String?) callback) {
     throw UnimplementedError('pairReader() has not been implemented.');
   }
+
+  Future<String> getTrackingConsentState() {
+    throw UnimplementedError('getTrackingConsentState() has not been implemented.');
+  }
+
+  Future<void> updateTrackingConsent({required bool granted}) {
+    throw UnimplementedError('updateTrackingConsent() has not been implemented.');
+  }
 }

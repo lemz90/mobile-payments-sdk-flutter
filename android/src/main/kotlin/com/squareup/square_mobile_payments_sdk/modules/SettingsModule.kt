@@ -57,5 +57,17 @@ class SettingsModule {
           val paymentSettings = settingsManager.getPaymentSettings()
           result.success(paymentSettings.offlineTransactionAmountLimit?.toMoneyMap())
         }
+
+        @JvmStatic
+        fun getTrackingConsentState(result: MethodChannel.Result) {
+            val consentState = settingsManager.trackingConsentState
+            result.success(consentState.name)
+        }
+        @JvmStatic
+        fun updateTrackingConsent(result: MethodChannel.Result, granted: Boolean) {
+            settingsManager.updateTrackingConsent(granted)
+            result.success(true)
+        }
+
     }
 }

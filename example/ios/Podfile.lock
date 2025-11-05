@@ -4,14 +4,14 @@ PODS:
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
-  - MockReaderUI (2.2.3)
+  - MockReaderUI (2.3.0)
   - permission_handler_apple (9.3.0):
     - Flutter
   - square_mobile_payments_sdk (0.0.2):
     - Flutter
-    - MockReaderUI (~> 2.2.1)
-    - SquareMobilePaymentsSDK (~> 2.2.1)
-  - SquareMobilePaymentsSDK (2.2.3)
+    - MockReaderUI (~> 2.3.0)
+    - SquareMobilePaymentsSDK (~> 2.3.0)
+  - SquareMobilePaymentsSDK (2.3.0)
 
 DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -41,10 +41,10 @@ SPEC CHECKSUMS:
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
-  MockReaderUI: d88d35cb4926b38425c2ba9fa3ef11a4aaf39f21
+  MockReaderUI: 36ca3e873a3ea804527e31b3d2b312543d6dfc26
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
-  square_mobile_payments_sdk: 67ae2e7567383310b394577f4e794e22725f2c6c
-  SquareMobilePaymentsSDK: 698333088d7200bba3e7991121ba245112390651
+  square_mobile_payments_sdk: 8407371c0ef038b7db9edc2b077bc29ec079af39
+  SquareMobilePaymentsSDK: c03d0e848b113e1b0f8232906edfeef0431b12a5
 
 PODFILE CHECKSUM: 40b3d892218f5282302711fd5815e53c97476e73
 

@@ -191,26 +191,48 @@ class Payment with _$Payment {
       _$PaymentFromJson(json);
 }
 
-@freezed
+@Freezed(unionKey: 'type') // 👈 needed because we have two constructors
 class PaymentParameters with _$PaymentParameters {
+  /// ✅ Current / recommended constructor
+  @FreezedUnionValue('current')
   const factory PaymentParameters({
     int? acceptPartialAuthorization,
     required Money amountMoney,
-    Money? appFeeMoney, 
-    bool? autocomplete, 
-    String? customerId, 
-    DelayAction? delayAction, 
-    num? delayDuration, 
-    required num processingMode, 
-    String? idempotencyKey, 
-    String? paymentAttemptId, 
-    String? locationId, 
+    Money? appFeeMoney,
+    bool? autocomplete,
+    String? customerId,
+    DelayAction? delayAction,
+    num? delayDuration,
+    required num processingMode,
+    required String paymentAttemptId, 
+    String? locationId,
     String? note,
-    String? orderId, 
-    String? referenceId, 
-    String? teamMemberId, 
-    Money? tipMoney, 
+    String? orderId,
+    String? referenceId,
+    String? teamMemberId,
+    Money? tipMoney,
   }) = _PaymentParameters;
+
+  /// ⚠️ Deprecated constructor 
+  @Deprecated('Use the constructor with paymentAttemptId instead.')
+  @FreezedUnionValue('legacy')
+  const factory PaymentParameters.legacy({
+    int? acceptPartialAuthorization,
+    required Money amountMoney,
+    Money? appFeeMoney,
+    bool? autocomplete,
+    String? customerId,
+    DelayAction? delayAction,
+    num? delayDuration,
+    required num processingMode,
+    required String idempotencyKey, 
+    String? locationId,
+    String? note,
+    String? orderId,
+    String? referenceId,
+    String? teamMemberId,
+    Money? tipMoney,
+  }) = _LegacyPaymentParameters;
 
   factory PaymentParameters.fromJson(Map<String, Object?> json) =>
       _$PaymentParametersFromJson(json);

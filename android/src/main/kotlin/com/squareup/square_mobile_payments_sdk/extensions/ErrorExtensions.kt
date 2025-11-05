@@ -32,4 +32,5 @@ fun PaymentErrorCode.toPaymentErrorCodeName(): String = when (this) {
         PaymentErrorCode.LOCATION_SERVICES_DISABLED -> "locationServicesDisabled"
         PaymentErrorCode.DEVICE_CLOCK_SKEWED -> "deviceClockSkewed"
         PaymentErrorCode.USAGE_ERROR -> "usageError"
+        PaymentErrorCode.CONSENT_NOT_PROVIDED -> "consentNotProvided"
 }

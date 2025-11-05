@@ -87,7 +87,20 @@ public class SquareMobilePaymentsSdkPlugin: NSObject, FlutterPlugin, FlutterStre
       PaymentModule.getPayments(result: result)
     case "getTotalStoredPaymentAmount":
       PaymentModule.getTotalStoredPaymentAmount(result: result)
-
+    case "getTrackingConsentState":
+      SettingsModule.getTrackingConsentState(result: result)
+    
+    case "updateTrackingConsent":
+      if  let arguments = call.arguments as? [String: Any],
+            let granted = arguments["granted"] as? Bool {
+          SettingsModule.updateTrackingConsent(result: result, granted: granted)
+      } else {
+            result(FlutterError(
+              code: "missingParameters",
+              message: "Missing granted parameter",
+              details: nil))
+          }
+      
     case "getReaders":
       ReaderModule.getReaders(result: result)
     case "getReader":

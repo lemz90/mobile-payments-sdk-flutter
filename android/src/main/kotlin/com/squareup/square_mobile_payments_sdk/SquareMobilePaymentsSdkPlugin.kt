@@ -66,6 +66,12 @@ class SquareMobilePaymentsSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHa
       "isOfflineProcessingAllowed" -> SettingsModule.isOfflineProcessingAllowed(result)
       "getOfflineTotalStoredAmountLimit" -> SettingsModule.getOfflineTotalStoredAmountLimit(result)
       "getOfflineTransactionAmountLimit" -> SettingsModule.getOfflineTransactionAmountLimit(result)
+      "getTrackingConsentState" -> SettingsModule.getTrackingConsentState(result)
+      "updateTrackingConsent" -> {
+        val granted = call.argument<Boolean>("granted")
+        granted?.let { SettingsModule.updateTrackingConsent(result, it) }
+      }
+
       "getPayments" -> PaymentModule.getPayments(result)
       "getTotalStoredPaymentAmount" -> PaymentModule.getTotalStoredPaymentAmount(result)
       "getReaders" -> ReaderModule.getReaders(result)

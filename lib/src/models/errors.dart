@@ -62,6 +62,7 @@ enum PaymentErrorCode {
   locationServicesDisabled,
   deviceClockSkewed,
   usageError,
+  consentNotProvided,
   unknown
 }
 

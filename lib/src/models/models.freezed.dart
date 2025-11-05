@@ -3384,7 +3384,16 @@ abstract class _Payment implements Payment {
 }
 
 PaymentParameters _$PaymentParametersFromJson(Map<String, dynamic> json) {
-  return _PaymentParameters.fromJson(json);
+  switch (json['type']) {
+    case 'current':
+      return _PaymentParameters.fromJson(json);
+    case 'legacy':
+      return _LegacyPaymentParameters.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'PaymentParameters',
+          'Invalid union type "${json['type']}"!');
+  }
 }
 
 /// @nodoc
@@ -3396,15 +3405,147 @@ mixin _$PaymentParameters {
   String? get customerId => throw _privateConstructorUsedError;
   DelayAction? get delayAction => throw _privateConstructorUsedError;
   num? get delayDuration => throw _privateConstructorUsedError;
-  num get processingMode => throw _privateConstructorUsedError;
-  String? get idempotencyKey => throw _privateConstructorUsedError;
-  String? get paymentAttemptId => throw _privateConstructorUsedError;
+  num get processingMode => throw _privateConstructorUsedError; // 👈 new field
   String? get locationId => throw _privateConstructorUsedError;
   String? get note => throw _privateConstructorUsedError;
   String? get orderId => throw _privateConstructorUsedError;
   String? get referenceId => throw _privateConstructorUsedError;
   String? get teamMemberId => throw _privateConstructorUsedError;
   Money? get tipMoney => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)
+        $default, {
+    required TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)
+        legacy,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        $default, {
+    TResult? Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        legacy,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        $default, {
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        legacy,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_PaymentParameters value) $default, {
+    required TResult Function(_LegacyPaymentParameters value) legacy,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_PaymentParameters value)? $default, {
+    TResult? Function(_LegacyPaymentParameters value)? legacy,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_PaymentParameters value)? $default, {
+    TResult Function(_LegacyPaymentParameters value)? legacy,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this PaymentParameters to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3431,8 +3572,6 @@ abstract class $PaymentParametersCopyWith<$Res> {
       DelayAction? delayAction,
       num? delayDuration,
       num processingMode,
-      String? idempotencyKey,
-      String? paymentAttemptId,
       String? locationId,
       String? note,
       String? orderId,
@@ -3468,8 +3607,6 @@ class _$PaymentParametersCopyWithImpl<$Res, $Val extends PaymentParameters>
     Object? delayAction = freezed,
     Object? delayDuration = freezed,
     Object? processingMode = null,
-    Object? idempotencyKey = freezed,
-    Object? paymentAttemptId = freezed,
     Object? locationId = freezed,
     Object? note = freezed,
     Object? orderId = freezed,
@@ -3510,14 +3647,6 @@ class _$PaymentParametersCopyWithImpl<$Res, $Val extends PaymentParameters>
           ? _value.processingMode
           : processingMode // ignore: cast_nullable_to_non_nullable
               as num,
-      idempotencyKey: freezed == idempotencyKey
-          ? _value.idempotencyKey
-          : idempotencyKey // ignore: cast_nullable_to_non_nullable
-              as String?,
-      paymentAttemptId: freezed == paymentAttemptId
-          ? _value.paymentAttemptId
-          : paymentAttemptId // ignore: cast_nullable_to_non_nullable
-              as String?,
       locationId: freezed == locationId
           ? _value.locationId
           : locationId // ignore: cast_nullable_to_non_nullable
@@ -3601,8 +3730,7 @@ abstract class _$$PaymentParametersImplCopyWith<$Res>
       DelayAction? delayAction,
       num? delayDuration,
       num processingMode,
-      String? idempotencyKey,
-      String? paymentAttemptId,
+      String paymentAttemptId,
       String? locationId,
       String? note,
       String? orderId,
@@ -3639,8 +3767,7 @@ class __$$PaymentParametersImplCopyWithImpl<$Res>
     Object? delayAction = freezed,
     Object? delayDuration = freezed,
     Object? processingMode = null,
-    Object? idempotencyKey = freezed,
-    Object? paymentAttemptId = freezed,
+    Object? paymentAttemptId = null,
     Object? locationId = freezed,
     Object? note = freezed,
     Object? orderId = freezed,
@@ -3681,14 +3808,10 @@ class __$$PaymentParametersImplCopyWithImpl<$Res>
           ? _value.processingMode
           : processingMode // ignore: cast_nullable_to_non_nullable
               as num,
-      idempotencyKey: freezed == idempotencyKey
-          ? _value.idempotencyKey
-          : idempotencyKey // ignore: cast_nullable_to_non_nullable
-              as String?,
-      paymentAttemptId: freezed == paymentAttemptId
+      paymentAttemptId: null == paymentAttemptId
           ? _value.paymentAttemptId
           : paymentAttemptId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       locationId: freezed == locationId
           ? _value.locationId
           : locationId // ignore: cast_nullable_to_non_nullable
@@ -3731,14 +3854,15 @@ class _$PaymentParametersImpl
       this.delayAction,
       this.delayDuration,
       required this.processingMode,
-      this.idempotencyKey,
-      this.paymentAttemptId,
+      required this.paymentAttemptId,
       this.locationId,
       this.note,
       this.orderId,
       this.referenceId,
       this.teamMemberId,
-      this.tipMoney});
+      this.tipMoney,
+      final String? $type})
+      : $type = $type ?? 'current';
 
   factory _$PaymentParametersImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaymentParametersImplFromJson(json);
@@ -3760,9 +3884,8 @@ class _$PaymentParametersImpl
   @override
   final num processingMode;
   @override
-  final String? idempotencyKey;
-  @override
-  final String? paymentAttemptId;
+  final String paymentAttemptId;
+// 👈 new field
   @override
   final String? locationId;
   @override
@@ -3776,9 +3899,12 @@ class _$PaymentParametersImpl
   @override
   final Money? tipMoney;
 
+  @JsonKey(name: 'type')
+  final String $type;
+
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PaymentParameters(acceptPartialAuthorization: $acceptPartialAuthorization, amountMoney: $amountMoney, appFeeMoney: $appFeeMoney, autocomplete: $autocomplete, customerId: $customerId, delayAction: $delayAction, delayDuration: $delayDuration, processingMode: $processingMode, idempotencyKey: $idempotencyKey, paymentAttemptId: $paymentAttemptId, locationId: $locationId, note: $note, orderId: $orderId, referenceId: $referenceId, teamMemberId: $teamMemberId, tipMoney: $tipMoney)';
+    return 'PaymentParameters(acceptPartialAuthorization: $acceptPartialAuthorization, amountMoney: $amountMoney, appFeeMoney: $appFeeMoney, autocomplete: $autocomplete, customerId: $customerId, delayAction: $delayAction, delayDuration: $delayDuration, processingMode: $processingMode, paymentAttemptId: $paymentAttemptId, locationId: $locationId, note: $note, orderId: $orderId, referenceId: $referenceId, teamMemberId: $teamMemberId, tipMoney: $tipMoney)';
   }
 
   @override
@@ -3795,7 +3921,6 @@ class _$PaymentParametersImpl
       ..add(DiagnosticsProperty('delayAction', delayAction))
       ..add(DiagnosticsProperty('delayDuration', delayDuration))
       ..add(DiagnosticsProperty('processingMode', processingMode))
-      ..add(DiagnosticsProperty('idempotencyKey', idempotencyKey))
       ..add(DiagnosticsProperty('paymentAttemptId', paymentAttemptId))
       ..add(DiagnosticsProperty('locationId', locationId))
       ..add(DiagnosticsProperty('note', note))
@@ -3828,8 +3953,6 @@ class _$PaymentParametersImpl
                 other.delayDuration == delayDuration) &&
             (identical(other.processingMode, processingMode) ||
                 other.processingMode == processingMode) &&
-            (identical(other.idempotencyKey, idempotencyKey) ||
-                other.idempotencyKey == idempotencyKey) &&
             (identical(other.paymentAttemptId, paymentAttemptId) ||
                 other.paymentAttemptId == paymentAttemptId) &&
             (identical(other.locationId, locationId) ||
@@ -3856,7 +3979,6 @@ class _$PaymentParametersImpl
       delayAction,
       delayDuration,
       processingMode,
-      idempotencyKey,
       paymentAttemptId,
       locationId,
       note,
@@ -3873,6 +3995,209 @@ class _$PaymentParametersImpl
   _$$PaymentParametersImplCopyWith<_$PaymentParametersImpl> get copyWith =>
       __$$PaymentParametersImplCopyWithImpl<_$PaymentParametersImpl>(
           this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)
+        $default, {
+    required TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)
+        legacy,
+  }) {
+    return $default(
+        acceptPartialAuthorization,
+        amountMoney,
+        appFeeMoney,
+        autocomplete,
+        customerId,
+        delayAction,
+        delayDuration,
+        processingMode,
+        paymentAttemptId,
+        locationId,
+        note,
+        orderId,
+        referenceId,
+        teamMemberId,
+        tipMoney);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        $default, {
+    TResult? Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        legacy,
+  }) {
+    return $default?.call(
+        acceptPartialAuthorization,
+        amountMoney,
+        appFeeMoney,
+        autocomplete,
+        customerId,
+        delayAction,
+        delayDuration,
+        processingMode,
+        paymentAttemptId,
+        locationId,
+        note,
+        orderId,
+        referenceId,
+        teamMemberId,
+        tipMoney);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        $default, {
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        legacy,
+    required TResult orElse(),
+  }) {
+    if ($default != null) {
+      return $default(
+          acceptPartialAuthorization,
+          amountMoney,
+          appFeeMoney,
+          autocomplete,
+          customerId,
+          delayAction,
+          delayDuration,
+          processingMode,
+          paymentAttemptId,
+          locationId,
+          note,
+          orderId,
+          referenceId,
+          teamMemberId,
+          tipMoney);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_PaymentParameters value) $default, {
+    required TResult Function(_LegacyPaymentParameters value) legacy,
+  }) {
+    return $default(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_PaymentParameters value)? $default, {
+    TResult? Function(_LegacyPaymentParameters value)? legacy,
+  }) {
+    return $default?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_PaymentParameters value)? $default, {
+    TResult Function(_LegacyPaymentParameters value)? legacy,
+    required TResult orElse(),
+  }) {
+    if ($default != null) {
+      return $default(this);
+    }
+    return orElse();
+  }
 
   @override
   Map<String, dynamic> toJson() {
@@ -3892,8 +4217,7 @@ abstract class _PaymentParameters implements PaymentParameters {
       final DelayAction? delayAction,
       final num? delayDuration,
       required final num processingMode,
-      final String? idempotencyKey,
-      final String? paymentAttemptId,
+      required final String paymentAttemptId,
       final String? locationId,
       final String? note,
       final String? orderId,
@@ -3920,10 +4244,7 @@ abstract class _PaymentParameters implements PaymentParameters {
   num? get delayDuration;
   @override
   num get processingMode;
-  @override
-  String? get idempotencyKey;
-  @override
-  String? get paymentAttemptId;
+  String get paymentAttemptId; // 👈 new field
   @override
   String? get locationId;
   @override
@@ -3943,6 +4264,562 @@ abstract class _PaymentParameters implements PaymentParameters {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaymentParametersImplCopyWith<_$PaymentParametersImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LegacyPaymentParametersImplCopyWith<$Res>
+    implements $PaymentParametersCopyWith<$Res> {
+  factory _$$LegacyPaymentParametersImplCopyWith(
+          _$LegacyPaymentParametersImpl value,
+          $Res Function(_$LegacyPaymentParametersImpl) then) =
+      __$$LegacyPaymentParametersImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int? acceptPartialAuthorization,
+      Money amountMoney,
+      Money? appFeeMoney,
+      bool? autocomplete,
+      String? customerId,
+      DelayAction? delayAction,
+      num? delayDuration,
+      num processingMode,
+      String idempotencyKey,
+      String? locationId,
+      String? note,
+      String? orderId,
+      String? referenceId,
+      String? teamMemberId,
+      Money? tipMoney});
+
+  @override
+  $MoneyCopyWith<$Res> get amountMoney;
+  @override
+  $MoneyCopyWith<$Res>? get appFeeMoney;
+  @override
+  $MoneyCopyWith<$Res>? get tipMoney;
+}
+
+/// @nodoc
+class __$$LegacyPaymentParametersImplCopyWithImpl<$Res>
+    extends _$PaymentParametersCopyWithImpl<$Res, _$LegacyPaymentParametersImpl>
+    implements _$$LegacyPaymentParametersImplCopyWith<$Res> {
+  __$$LegacyPaymentParametersImplCopyWithImpl(
+      _$LegacyPaymentParametersImpl _value,
+      $Res Function(_$LegacyPaymentParametersImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PaymentParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? acceptPartialAuthorization = freezed,
+    Object? amountMoney = null,
+    Object? appFeeMoney = freezed,
+    Object? autocomplete = freezed,
+    Object? customerId = freezed,
+    Object? delayAction = freezed,
+    Object? delayDuration = freezed,
+    Object? processingMode = null,
+    Object? idempotencyKey = null,
+    Object? locationId = freezed,
+    Object? note = freezed,
+    Object? orderId = freezed,
+    Object? referenceId = freezed,
+    Object? teamMemberId = freezed,
+    Object? tipMoney = freezed,
+  }) {
+    return _then(_$LegacyPaymentParametersImpl(
+      acceptPartialAuthorization: freezed == acceptPartialAuthorization
+          ? _value.acceptPartialAuthorization
+          : acceptPartialAuthorization // ignore: cast_nullable_to_non_nullable
+              as int?,
+      amountMoney: null == amountMoney
+          ? _value.amountMoney
+          : amountMoney // ignore: cast_nullable_to_non_nullable
+              as Money,
+      appFeeMoney: freezed == appFeeMoney
+          ? _value.appFeeMoney
+          : appFeeMoney // ignore: cast_nullable_to_non_nullable
+              as Money?,
+      autocomplete: freezed == autocomplete
+          ? _value.autocomplete
+          : autocomplete // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      customerId: freezed == customerId
+          ? _value.customerId
+          : customerId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      delayAction: freezed == delayAction
+          ? _value.delayAction
+          : delayAction // ignore: cast_nullable_to_non_nullable
+              as DelayAction?,
+      delayDuration: freezed == delayDuration
+          ? _value.delayDuration
+          : delayDuration // ignore: cast_nullable_to_non_nullable
+              as num?,
+      processingMode: null == processingMode
+          ? _value.processingMode
+          : processingMode // ignore: cast_nullable_to_non_nullable
+              as num,
+      idempotencyKey: null == idempotencyKey
+          ? _value.idempotencyKey
+          : idempotencyKey // ignore: cast_nullable_to_non_nullable
+              as String,
+      locationId: freezed == locationId
+          ? _value.locationId
+          : locationId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      referenceId: freezed == referenceId
+          ? _value.referenceId
+          : referenceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      teamMemberId: freezed == teamMemberId
+          ? _value.teamMemberId
+          : teamMemberId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tipMoney: freezed == tipMoney
+          ? _value.tipMoney
+          : tipMoney // ignore: cast_nullable_to_non_nullable
+              as Money?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+@Deprecated('Use the constructor with paymentAttemptId instead.')
+class _$LegacyPaymentParametersImpl
+    with DiagnosticableTreeMixin
+    implements _LegacyPaymentParameters {
+  const _$LegacyPaymentParametersImpl(
+      {this.acceptPartialAuthorization,
+      required this.amountMoney,
+      this.appFeeMoney,
+      this.autocomplete,
+      this.customerId,
+      this.delayAction,
+      this.delayDuration,
+      required this.processingMode,
+      required this.idempotencyKey,
+      this.locationId,
+      this.note,
+      this.orderId,
+      this.referenceId,
+      this.teamMemberId,
+      this.tipMoney,
+      final String? $type})
+      : $type = $type ?? 'legacy';
+
+  factory _$LegacyPaymentParametersImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LegacyPaymentParametersImplFromJson(json);
+
+  @override
+  final int? acceptPartialAuthorization;
+  @override
+  final Money amountMoney;
+  @override
+  final Money? appFeeMoney;
+  @override
+  final bool? autocomplete;
+  @override
+  final String? customerId;
+  @override
+  final DelayAction? delayAction;
+  @override
+  final num? delayDuration;
+  @override
+  final num processingMode;
+  @override
+  final String idempotencyKey;
+// 👈 old field
+  @override
+  final String? locationId;
+  @override
+  final String? note;
+  @override
+  final String? orderId;
+  @override
+  final String? referenceId;
+  @override
+  final String? teamMemberId;
+  @override
+  final Money? tipMoney;
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'PaymentParameters.legacy(acceptPartialAuthorization: $acceptPartialAuthorization, amountMoney: $amountMoney, appFeeMoney: $appFeeMoney, autocomplete: $autocomplete, customerId: $customerId, delayAction: $delayAction, delayDuration: $delayDuration, processingMode: $processingMode, idempotencyKey: $idempotencyKey, locationId: $locationId, note: $note, orderId: $orderId, referenceId: $referenceId, teamMemberId: $teamMemberId, tipMoney: $tipMoney)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'PaymentParameters.legacy'))
+      ..add(DiagnosticsProperty(
+          'acceptPartialAuthorization', acceptPartialAuthorization))
+      ..add(DiagnosticsProperty('amountMoney', amountMoney))
+      ..add(DiagnosticsProperty('appFeeMoney', appFeeMoney))
+      ..add(DiagnosticsProperty('autocomplete', autocomplete))
+      ..add(DiagnosticsProperty('customerId', customerId))
+      ..add(DiagnosticsProperty('delayAction', delayAction))
+      ..add(DiagnosticsProperty('delayDuration', delayDuration))
+      ..add(DiagnosticsProperty('processingMode', processingMode))
+      ..add(DiagnosticsProperty('idempotencyKey', idempotencyKey))
+      ..add(DiagnosticsProperty('locationId', locationId))
+      ..add(DiagnosticsProperty('note', note))
+      ..add(DiagnosticsProperty('orderId', orderId))
+      ..add(DiagnosticsProperty('referenceId', referenceId))
+      ..add(DiagnosticsProperty('teamMemberId', teamMemberId))
+      ..add(DiagnosticsProperty('tipMoney', tipMoney));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LegacyPaymentParametersImpl &&
+            (identical(other.acceptPartialAuthorization,
+                    acceptPartialAuthorization) ||
+                other.acceptPartialAuthorization ==
+                    acceptPartialAuthorization) &&
+            (identical(other.amountMoney, amountMoney) ||
+                other.amountMoney == amountMoney) &&
+            (identical(other.appFeeMoney, appFeeMoney) ||
+                other.appFeeMoney == appFeeMoney) &&
+            (identical(other.autocomplete, autocomplete) ||
+                other.autocomplete == autocomplete) &&
+            (identical(other.customerId, customerId) ||
+                other.customerId == customerId) &&
+            (identical(other.delayAction, delayAction) ||
+                other.delayAction == delayAction) &&
+            (identical(other.delayDuration, delayDuration) ||
+                other.delayDuration == delayDuration) &&
+            (identical(other.processingMode, processingMode) ||
+                other.processingMode == processingMode) &&
+            (identical(other.idempotencyKey, idempotencyKey) ||
+                other.idempotencyKey == idempotencyKey) &&
+            (identical(other.locationId, locationId) ||
+                other.locationId == locationId) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.referenceId, referenceId) ||
+                other.referenceId == referenceId) &&
+            (identical(other.teamMemberId, teamMemberId) ||
+                other.teamMemberId == teamMemberId) &&
+            (identical(other.tipMoney, tipMoney) ||
+                other.tipMoney == tipMoney));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      acceptPartialAuthorization,
+      amountMoney,
+      appFeeMoney,
+      autocomplete,
+      customerId,
+      delayAction,
+      delayDuration,
+      processingMode,
+      idempotencyKey,
+      locationId,
+      note,
+      orderId,
+      referenceId,
+      teamMemberId,
+      tipMoney);
+
+  /// Create a copy of PaymentParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LegacyPaymentParametersImplCopyWith<_$LegacyPaymentParametersImpl>
+      get copyWith => __$$LegacyPaymentParametersImplCopyWithImpl<
+          _$LegacyPaymentParametersImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)
+        $default, {
+    required TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)
+        legacy,
+  }) {
+    return legacy(
+        acceptPartialAuthorization,
+        amountMoney,
+        appFeeMoney,
+        autocomplete,
+        customerId,
+        delayAction,
+        delayDuration,
+        processingMode,
+        idempotencyKey,
+        locationId,
+        note,
+        orderId,
+        referenceId,
+        teamMemberId,
+        tipMoney);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        $default, {
+    TResult? Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        legacy,
+  }) {
+    return legacy?.call(
+        acceptPartialAuthorization,
+        amountMoney,
+        appFeeMoney,
+        autocomplete,
+        customerId,
+        delayAction,
+        delayDuration,
+        processingMode,
+        idempotencyKey,
+        locationId,
+        note,
+        orderId,
+        referenceId,
+        teamMemberId,
+        tipMoney);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String paymentAttemptId,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        $default, {
+    TResult Function(
+            int? acceptPartialAuthorization,
+            Money amountMoney,
+            Money? appFeeMoney,
+            bool? autocomplete,
+            String? customerId,
+            DelayAction? delayAction,
+            num? delayDuration,
+            num processingMode,
+            String idempotencyKey,
+            String? locationId,
+            String? note,
+            String? orderId,
+            String? referenceId,
+            String? teamMemberId,
+            Money? tipMoney)?
+        legacy,
+    required TResult orElse(),
+  }) {
+    if (legacy != null) {
+      return legacy(
+          acceptPartialAuthorization,
+          amountMoney,
+          appFeeMoney,
+          autocomplete,
+          customerId,
+          delayAction,
+          delayDuration,
+          processingMode,
+          idempotencyKey,
+          locationId,
+          note,
+          orderId,
+          referenceId,
+          teamMemberId,
+          tipMoney);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_PaymentParameters value) $default, {
+    required TResult Function(_LegacyPaymentParameters value) legacy,
+  }) {
+    return legacy(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_PaymentParameters value)? $default, {
+    TResult? Function(_LegacyPaymentParameters value)? legacy,
+  }) {
+    return legacy?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_PaymentParameters value)? $default, {
+    TResult Function(_LegacyPaymentParameters value)? legacy,
+    required TResult orElse(),
+  }) {
+    if (legacy != null) {
+      return legacy(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LegacyPaymentParametersImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LegacyPaymentParameters implements PaymentParameters {
+  const factory _LegacyPaymentParameters(
+      {final int? acceptPartialAuthorization,
+      required final Money amountMoney,
+      final Money? appFeeMoney,
+      final bool? autocomplete,
+      final String? customerId,
+      final DelayAction? delayAction,
+      final num? delayDuration,
+      required final num processingMode,
+      required final String idempotencyKey,
+      final String? locationId,
+      final String? note,
+      final String? orderId,
+      final String? referenceId,
+      final String? teamMemberId,
+      final Money? tipMoney}) = _$LegacyPaymentParametersImpl;
+
+  factory _LegacyPaymentParameters.fromJson(Map<String, dynamic> json) =
+      _$LegacyPaymentParametersImpl.fromJson;
+
+  @override
+  int? get acceptPartialAuthorization;
+  @override
+  Money get amountMoney;
+  @override
+  Money? get appFeeMoney;
+  @override
+  bool? get autocomplete;
+  @override
+  String? get customerId;
+  @override
+  DelayAction? get delayAction;
+  @override
+  num? get delayDuration;
+  @override
+  num get processingMode;
+  String get idempotencyKey; // 👈 old field
+  @override
+  String? get locationId;
+  @override
+  String? get note;
+  @override
+  String? get orderId;
+  @override
+  String? get referenceId;
+  @override
+  String? get teamMemberId;
+  @override
+  Money? get tipMoney;
+
+  /// Create a copy of PaymentParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LegacyPaymentParametersImplCopyWith<_$LegacyPaymentParametersImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 OnlinePayment _$OnlinePaymentFromJson(Map<String, dynamic> json) {

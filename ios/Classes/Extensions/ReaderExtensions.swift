@@ -15,6 +15,8 @@ extension ReaderInfo {
             "name" : name,
             "serialNumber" : serialNumber ?? NSNull(),
             "state" : state.toName(),
+            "status": statusInfo.status.rawValue,
+            "statusReason": statusInfo.reason.rawValue,
             "supportedInputMethods" : supportedInputMethods.toList()
         ]
     }

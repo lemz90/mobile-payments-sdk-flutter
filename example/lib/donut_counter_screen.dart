@@ -21,15 +21,15 @@ class _DonutCounterScreenState extends State<DonutCounterScreen> {
 
   _onBuy(BuildContext context, int amount) async {
     try {
-      String idempotencyKey = uuid.v4();
+      String paymentAttemptId = uuid.v4();
 
       Payment payment = await _squareMobilePaymentsSdkPlugin.paymentManager
           .startPayment(
               PaymentParameters(
-                processingMode: 2,
+                processingMode: 0,
                   amountMoney:
                       Money(amount: amount, currencyCode: CurrencyCode.eur),
-                  idempotencyKey: idempotencyKey),
+                  paymentAttemptId: paymentAttemptId),
               PromptParameters(
                   additionalPaymentMethods: List.empty(),
                   mode: PromptMode.defaultMode));
