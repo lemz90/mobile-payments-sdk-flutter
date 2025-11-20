@@ -22,7 +22,8 @@ class PaymentMapper {
             
             val builder = PaymentParameters.Builder(
                 amount = Money(amount, currencyCode),
-                processingMode = convertToProcessingMode(paymentParameters.get("processingMode") as? Int ?: 0)
+                processingMode = convertToProcessingMode(paymentParameters.get("processingMode") as? Int ?: 0),
+                allowCardSurcharge = paymentParameters.get("allowCardSurcharge") as? Boolean ?: false
                 )
 
                 if(paymentParameters.get("appFeeMoney") != null){

@@ -88,6 +88,7 @@ extension CardBrand {
             case .squareGiftCard: return "squareGiftCard"
             case .unknown: return "unknown"
             case .visa: return "visa"
+            default : return "unknown"
         }
     }
 }
@@ -112,6 +113,7 @@ extension CardEntryMethod {
             case .onFile: return "onFile"
             case .swiped: return "swiped"
             case .unknown: return "unknown"
+            default : return "unknown"
         }
     }
 }

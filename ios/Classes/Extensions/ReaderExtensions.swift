@@ -16,7 +16,7 @@ extension ReaderInfo {
             "serialNumber" : serialNumber ?? NSNull(),
             "state" : state.toName(),
             "status": statusInfo.status.rawValue,
-            "statusReason": statusInfo.reason.rawValue,
+            //no longer supported in 2.3.1 and not is contemplated in flutter model // "statusReason": statusInfo.reason.rawValue,
             "supportedInputMethods" : supportedInputMethods.toList()
         ]
     }

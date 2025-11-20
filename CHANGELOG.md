@@ -1,3 +1,11 @@
+## 2025.11.2
+
+Upgrade native SDKs: Android 2.3.4, iOS: 2.3.1
+
+## 2025.11.1
+
+- Support for paymentAttemptId 
+
 ## 2025.9.1
 
 Upgrade native SDKs: Android 2.3.1, iOS: 2.3.0
